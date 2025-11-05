@@ -1,3 +1,8 @@
+## Dockerfile con proyecto en Maven
+
+### Crear un proyecto en Maven
+<img src="images/project.png" alt="Project Image" width="600"/>
+
 ### Agregar al archivo pom.xml el Manifest
 ```xml
     <build>
@@ -27,4 +32,42 @@ mvn clean package
 ### Ejecutar el componente
 ```
 java -jar target/3_maven-1.0-SNAPSHOT.jar
+```
+
+### Crear el Dockerfile
+```Dockerfile
+FROM openjdk:17
+
+WORKDIR /app
+
+COPY target/*.jar /app/app.jar
+
+CMD ["java", "-jar", "/app/app.jar"]
+```
+### Construir la imagen Docker
+```
+docker build -t myappjava:1.0 .
+```
+### Ejecutar el contenedor Docker
+```
+docker run -d --name myappjava01 myappjava:1.0
+```
+### Borrar
+```
+docker rm myappjava01
+```
+
+### Ver los logs del contenedor
+```
+docker logs myappjava01
+docker logs -f myappjava01
+```
+## Entrar al terminal del contenedor ( Host Linux o Mac )
+```
+docker exec -it myappjava01 /bin/bash
+```
+
+## Entrar al terminal del contenedor ( Host Windows o Linux o Mac )
+```
+docker exec -it myappjava01 bash
 ```
